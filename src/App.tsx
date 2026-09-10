@@ -7,6 +7,7 @@ import { Footer } from "./components/Footer";
 import { FloatingPlayer } from "./components/FloatingPlayer";
 import { About } from "./components/About";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Footer />
           <FloatingPlayer />
           <Analytics />
+          <SpeedInsights />
         </div>
       </RadioPlayerProvider>
     </ErrorBoundary>
