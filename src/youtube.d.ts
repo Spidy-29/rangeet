@@ -12,6 +12,12 @@ declare global {
     class Player {
       constructor(element: HTMLElement | string, options: PlayerOptions);
       loadVideoById(videoId: string): void;
+      loadPlaylist(options: {
+        listType: string;
+        list: string;
+        index?: number;
+        startSeconds?: number;
+      }): void;
       playVideo(): void;
       pauseVideo(): void;
       stopVideo(): void;
@@ -22,6 +28,9 @@ declare global {
       seekTo(seconds: number, allowSeekAhead: boolean): void;
       getCurrentTime(): number;
       getDuration(): number;
+      setShuffle(shufflePlaylist: boolean): void;
+      nextVideo(): void;
+      previousVideo(): void;
     }
 
     interface PlayerOptions {

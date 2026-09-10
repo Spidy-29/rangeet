@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
-import { FALLBACK_TRACK, fisherYatesShuffle, STATION_KEYS, STATIONS, type Track } from "./playlists";
+import { FALLBACK_TRACK, STATION_KEYS, STATIONS, type Track } from "./playlists";
 import type { Mode } from "./types";
 
 const YT_UNSTARTED = -1;
@@ -55,12 +55,9 @@ function stationName(index: number): string {
 export function RadioPlayerProvider({ children }: { children: ReactNode }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<YT.Player | null>(null);
-  const queueRef = useRef<Track[]>([]);
-  const indexRef = useRef(0);
   const stationRef = useRef(0);
   const wantPlayRef = useRef(false);
   const playerReadyRef = useRef(false);
-  const errorsInPassRef = useRef(0);
   const usingFallbackRef = useRef(false);
   const pendingStartRef = useRef(false);
 
@@ -74,9 +71,8 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
 
   const apiRef = useRef({
     applyVolume: () => {},
-    loadTrack: (_track: Track) => {},
+    loadPlaylist: (_track: Track) => {},
     startStation: (_index: number) => {},
-    skipEnded: () => {},
     skipError: (_id: string, _code: number) => {},
     mapState: (_data: number) => {},
   });
@@ -88,76 +84,57 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
     player.unMute();
   };
 
-  apiRef.current.loadTrack = (track: Track) => {
+  apiRef.current.loadPlaylist = (track: Track) => {
     setCurrentTrack(track);
     const player = playerRef.current;
     if (!player || !playerReadyRef.current) {
       pendingStartRef.current = true;
       return;
     }
-    player.loadVideoById(track.id);
+    player.loadPlaylist({
+      listType: "playlist",
+      list: track.playlistId,
+      index: 0,
+      startSeconds: 0,
+    });
+    player.setShuffle(true);
     apiRef.current.applyVolume();
   };
 
   apiRef.current.startStation = (index: number) => {
     const key = STATION_KEYS[index];
     usingFallbackRef.current = false;
-    errorsInPassRef.current = 0;
-    const source = STATIONS[key] ?? [];
-    const queue = fisherYatesShuffle(source);
-    queueRef.current = queue.length ? queue : [FALLBACK_TRACK];
-    indexRef.current = 0;
-    if (!queue.length) usingFallbackRef.current = true;
-    setMode("tuning");
-    apiRef.current.loadTrack(queueRef.current[0]);
-  };
-
-  apiRef.current.skipEnded = () => {
-    if (usingFallbackRef.current) {
-      usingFallbackRef.current = false;
-      apiRef.current.startStation(stationRef.current);
+    const track = STATIONS[key] ?? FALLBACK_TRACK;
+    if (!track) {
+      usingFallbackRef.current = true;
+      setMode("tuning");
+      apiRef.current.loadPlaylist(FALLBACK_TRACK);
       return;
     }
-    const key = STATION_KEYS[stationRef.current];
-    let next = indexRef.current + 1;
-    if (next >= queueRef.current.length) {
-      const reshuffled = fisherYatesShuffle(STATIONS[key] ?? []);
-      queueRef.current = reshuffled.length ? reshuffled : [FALLBACK_TRACK];
-      next = 0;
-    }
-    indexRef.current = next;
-    apiRef.current.loadTrack(queueRef.current[next]);
+    setMode("tuning");
+    apiRef.current.loadPlaylist(track);
   };
 
   apiRef.current.skipError = (id: string, code: number) => {
-    console.warn(`[gaam-nu-radio] YouTube error ${code} for id=${id} station=${stationName(stationRef.current)}`);
+    console.warn(`[rangeet] YouTube error ${code} for id=${id} station=${stationName(stationRef.current)}`);
     if (usingFallbackRef.current) {
-      console.warn("[gaam-nu-radio] fallback track failed; leaving radio silent");
+      console.warn("[rangeet] fallback playlist failed; leaving radio silent");
       wantPlayRef.current = false;
       setMode("idle");
       return;
     }
-    const queue = queueRef.current;
-    errorsInPassRef.current += 1;
-    if (!queue.length || errorsInPassRef.current >= queue.length) {
-      usingFallbackRef.current = true;
-      apiRef.current.loadTrack(FALLBACK_TRACK);
-      return;
-    }
-    let next = indexRef.current + 1;
-    if (next >= queue.length) {
-      const key = STATION_KEYS[stationRef.current];
-      const reshuffled = fisherYatesShuffle(STATIONS[key] ?? []);
-      queueRef.current = reshuffled.length ? reshuffled : [FALLBACK_TRACK];
-      next = 0;
-    }
-    indexRef.current = next;
-    apiRef.current.loadTrack(queueRef.current[next]);
+    // On error, try fallback (garba playlist)
+    usingFallbackRef.current = true;
+    apiRef.current.loadPlaylist(FALLBACK_TRACK);
   };
 
   apiRef.current.mapState = (data: number) => {
     if (data === YT_ENDED) {
-      if (wantPlayRef.current) apiRef.current.skipEnded();
+      // YouTube playlists auto-advance; this fires only if the entire playlist ends
+      if (wantPlayRef.current) {
+        // Restart the current station playlist
+        apiRef.current.startStation(stationRef.current);
+      }
       return;
     }
     if (data === YT_BUFFERING) {
@@ -166,7 +143,6 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
       return;
     }
     if (data === YT_PLAYING) {
-      errorsInPassRef.current = 0;
       setMode("playing");
       apiRef.current.applyVolume();
       return;
@@ -213,8 +189,8 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
           onStateChange: (event) => apiRef.current.mapState(event.data),
           onError: (event) => {
             if (!SKIP_ERRORS.has(event.data)) return;
-            const track = usingFallbackRef.current ? FALLBACK_TRACK : queueRef.current[indexRef.current];
-            apiRef.current.skipError(track?.id ?? "unknown", event.data);
+            const track = currentTrack ?? FALLBACK_TRACK;
+            apiRef.current.skipError(track.id, event.data);
           },
         },
       });
@@ -242,7 +218,7 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
       return;
     }
     wantPlayRef.current = true;
-    if (mode === "idle" && currentTrack && playerReadyRef.current && queueRef.current.length) {
+    if (mode === "idle" && currentTrack && playerReadyRef.current) {
       setMode("tuning");
       playerRef.current?.playVideo();
       apiRef.current.applyVolume();
@@ -259,8 +235,6 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
     stationRef.current = index;
     setStation(index);
     if (!wantPlayRef.current) {
-      queueRef.current = [];
-      indexRef.current = 0;
       setCurrentTrack(null);
       return;
     }
@@ -275,20 +249,15 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
   const nextStation = () => goToStation((stationRef.current + 1) % STATION_KEYS.length);
   const prevStation = () => goToStation((stationRef.current - 1 + STATION_KEYS.length) % STATION_KEYS.length);
 
+  // YouTube handles next/prev within the playlist natively
   const nextTrack = () => {
     if (!wantPlayRef.current) wantPlayRef.current = true;
-    apiRef.current.skipEnded();
+    playerRef.current?.nextVideo();
   };
 
   const prevTrack = () => {
-    if (usingFallbackRef.current) return;
     if (!wantPlayRef.current) wantPlayRef.current = true;
-    let next = indexRef.current - 1;
-    if (next < 0) {
-      next = Math.max(0, queueRef.current.length - 1);
-    }
-    indexRef.current = next;
-    apiRef.current.loadTrack(queueRef.current[next]);
+    playerRef.current?.previousVideo();
   };
 
   const setVolume = (vol: number) => {
