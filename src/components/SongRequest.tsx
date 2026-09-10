@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./SongRequest.module.css";
+import { logCustomEvent } from "../firebase";
 
 export function SongRequest() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
@@ -24,6 +25,7 @@ export function SongRequest() {
       });
       const json = await res.json();
       if (json.success) {
+        logCustomEvent("song_requested", { songName: songName.trim(), hasYtLink: !!ytLink.trim() });
         setStatus("success");
       } else {
         throw new Error(json.error || "Unknown error");

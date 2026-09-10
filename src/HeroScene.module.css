@@ -137,6 +137,200 @@
   color: #111;
 }
 
+/* Hamburger — hidden on desktop */
+.hamburgerBtn {
+  display: none;
+  appearance: none;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: background 0.2s;
+}
+.hamburgerBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+.hamburgerBtn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* ──── Drawer ──── */
+.drawerOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.drawerOverlayOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(320px, 85vw);
+  background: rgba(18, 16, 13, 0.95);
+  backdrop-filter: blur(24px);
+  border-left: 1px solid rgba(201, 168, 106, 0.25);
+  z-index: 999;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow-y: auto;
+}
+.drawerOpen {
+  transform: translateX(0);
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 24px 16px;
+}
+
+.drawerTitle {
+  font-family: 'Rasa', serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--cream, #F4EBDD);
+}
+
+.drawerCloseBtn {
+  appearance: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.drawerCloseBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+.drawerCloseBtn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.drawerSection {
+  padding: 8px 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.drawerLabel {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+}
+
+.drawerStations {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.drawerStationBtn {
+  appearance: none;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+}
+.drawerStationBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.drawerStationBtnActive {
+  background: rgba(245, 165, 36, 0.15);
+  border-color: rgba(245, 165, 36, 0.4);
+}
+.drawerStationBtnActive:hover {
+  background: rgba(245, 165, 36, 0.2);
+}
+
+.drawerStationName {
+  font-family: 'Noto Sans Gujarati', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--cream, #F4EBDD);
+}
+.drawerStationBtnActive .drawerStationName {
+  color: #f5a524;
+}
+
+.drawerStationMeta {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.05em;
+}
+
+.drawerDivider {
+  height: 1px;
+  background: rgba(201, 168, 106, 0.15);
+  margin: 8px 24px;
+}
+
+.drawerSuggestBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  appearance: none;
+  background: linear-gradient(180deg, #f2b95c, #e8a33d);
+  border: none;
+  color: #0b0907;
+  margin: 8px 24px 24px;
+  padding: 14px 20px;
+  border-radius: 14px;
+  font-family: 'Rasa', serif;
+  font-weight: 700;
+  font-size: 17px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 24px rgba(232, 163, 61, 0.3);
+}
+.drawerSuggestBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(232, 163, 61, 0.4);
+}
+.drawerSuggestBtn svg {
+  width: 18px;
+  height: 18px;
+}
+
 /* Center Visualizer */
 .centerVisualizer {
   flex: 1;
@@ -230,7 +424,7 @@
   width: 4px;
   background-color: #f5a524;
   border-radius: 2px;
-  height: 4px; /* Default height */
+  height: 4px;
 }
 
 .barAnim {
@@ -393,3 +587,81 @@
   50% { transform: translateY(6px); }
 }
 
+/* ──── Tablet ──── */
+@media (max-width: 900px) {
+  .header {
+    padding: 28px 28px;
+  }
+  .bottomArea {
+    padding: 28px 28px;
+  }
+  .scrollHint {
+    right: 28px;
+    bottom: 80px;
+  }
+  .stationBtn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+  .logoTitle {
+    font-size: 32px;
+  }
+}
+
+/* ──── Mobile ──── */
+@media (max-width: 600px) {
+  .header {
+    flex-direction: row;
+    align-items: center;
+    padding: 16px 16px;
+    gap: 0;
+  }
+  .logoArea {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+  .logoTitle {
+    font-size: 26px;
+  }
+  .logoSub {
+    font-size: 8px;
+    gap: 4px;
+    display: none;
+  }
+  /* Hide desktop nav on mobile */
+  .headerRight {
+    display: none;
+  }
+  /* Show hamburger on mobile */
+  .hamburgerBtn {
+    display: flex;
+  }
+  .hugeTagline {
+    font-size: clamp(30px, 10vw, 52px);
+    padding: 0 20px;
+  }
+  .largeEqualizer {
+    height: 60px;
+    gap: 8px;
+  }
+  .largeEqualizer span {
+    width: 5px;
+  }
+  .bottomArea {
+    padding: 20px 16px;
+  }
+  .scrollHint {
+    display: none;
+  }
+}
+
+/* ──── Small phones ──── */
+@media (max-width: 380px) {
+  .logoTitle {
+    font-size: 22px;
+  }
+  .hugeTagline {
+    font-size: 26px;
+  }
+}

@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { FALLBACK_TRACK, STATION_KEYS, STATIONS, type Track } from "./playlists";
 import type { Mode } from "./types";
+import { logCustomEvent } from "./firebase";
 
 const YT_UNSTARTED = -1;
 const YT_ENDED = 0;
@@ -215,9 +216,11 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
       pendingStartRef.current = false;
       playerRef.current?.pauseVideo();
       setMode("idle");
+      logCustomEvent("radio_pause", { station: stationName(stationRef.current) });
       return;
     }
     wantPlayRef.current = true;
+    logCustomEvent("radio_play", { station: stationName(stationRef.current) });
     if (mode === "idle" && currentTrack && playerReadyRef.current) {
       setMode("tuning");
       playerRef.current?.playVideo();
@@ -232,6 +235,10 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
       if (wantPlayRef.current) return;
       return;
     }
+    logCustomEvent("radio_change_station", {
+      from_station: stationName(stationRef.current),
+      to_station: stationName(index),
+    });
     stationRef.current = index;
     setStation(index);
     if (!wantPlayRef.current) {
@@ -251,11 +258,13 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
 
   // YouTube handles next/prev within the playlist natively
   const nextTrack = () => {
+    logCustomEvent("radio_next_track", { station: stationName(stationRef.current) });
     if (!wantPlayRef.current) wantPlayRef.current = true;
     playerRef.current?.nextVideo();
   };
 
   const prevTrack = () => {
+    logCustomEvent("radio_prev_track", { station: stationName(stationRef.current) });
     if (!wantPlayRef.current) wantPlayRef.current = true;
     playerRef.current?.previousVideo();
   };
@@ -268,6 +277,7 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
   };
 
   const seekTo = (seconds: number) => {
+    logCustomEvent("radio_seek", { station: stationName(stationRef.current), seconds });
     if (playerRef.current && playerReadyRef.current) {
       playerRef.current.seekTo(seconds, true);
       setCurrentTime(seconds);
