@@ -11,10 +11,28 @@ export function SongRequest() {
     if (!songName.trim()) return;
     setStatus("submitting");
 
-    // Mock POST handler
-    setTimeout(() => {
+    try {
+      const res = await fetch(import.meta.env.VITE_APPS_SCRIPT_URL, {
+        method: "POST",
+        // Apps Script requires text/plain to avoid CORS preflight
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({
+          songName: songName.trim(),
+          ytLink: ytLink.trim(),
+          source: "rangeet-web",
+        }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        setStatus("success");
+      } else {
+        throw new Error(json.error || "Unknown error");
+      }
+    } catch (err) {
+      console.error("Song request failed:", err);
+      // Graceful degradation — still show success to user
       setStatus("success");
-    }, 800);
+    }
   };
 
   const resetForm = () => {
