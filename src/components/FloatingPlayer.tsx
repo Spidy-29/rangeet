@@ -17,8 +17,6 @@ export function FloatingPlayer() {
     mode,
     currentTrack,
     togglePlay,
-    nextStation,
-    prevStation,
     nextTrack,
     prevTrack,
     volume,

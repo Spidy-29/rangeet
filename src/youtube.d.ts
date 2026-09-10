@@ -19,6 +19,9 @@ declare global {
       mute(): void;
       unMute(): void;
       destroy(): void;
+      seekTo(seconds: number, allowSeekAhead: boolean): void;
+      getCurrentTime(): number;
+      getDuration(): number;
     }
 
     interface PlayerOptions {

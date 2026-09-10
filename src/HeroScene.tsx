@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import styles from "./HeroScene.module.css";
 import { useRadioPlayer } from "./RadioPlayer";
 import { STATION_CONFIGS } from "./constants/stations";
-import { tickerFromTrack } from "./playlists";
 
 export function HeroScene() {
-  const { station, mode, currentTrack, togglePlay, goToStation, nextStation, prevStation } = useRadioPlayer();
+  const { station, mode, goToStation } = useRadioPlayer();
   const [bgImage, setBgImage] = useState(STATION_CONFIGS[station].image);
   const [fade, setFade] = useState(false);
 
@@ -18,14 +17,7 @@ export function HeroScene() {
     return () => clearTimeout(timer);
   }, [station]);
 
-  const st = STATION_CONFIGS[station];
-  const off = mode === "idle";
   const playing = mode === "playing";
-  const nowPlaying = tickerFromTrack(currentTrack) || st.now;
-  
-  // Parse nowPlaying to get Title and Subtitle
-  const [trackTitle, ...trackSubParts] = nowPlaying.split("·").map(s => s.trim());
-  const trackSubtitle = trackSubParts.join(" · ");
 
   return (
     <div className={styles.heroScene}>
