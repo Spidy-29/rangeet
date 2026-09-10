@@ -92,10 +92,12 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
       pendingStartRef.current = true;
       return;
     }
+    // Use a random index to ensure the first song is also shuffled
+    const randomIndex = Math.floor(Math.random() * 50); 
     player.loadPlaylist({
       listType: "playlist",
       list: track.playlistId,
-      index: 0,
+      index: randomIndex,
       startSeconds: 0,
     });
     player.setShuffle(true);
