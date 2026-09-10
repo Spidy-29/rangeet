@@ -1,0 +1,110 @@
+:root {
+  color-scheme: dark;
+  --bg: #0B0907;
+  --bg-2: #12100D;
+  --surface: #171410;
+  --amber: #E8A33D;
+  --gold: #C9A86A;
+  --cream: #F4EBDD;
+  --muted: #A89C8C;
+  --border: rgba(201,168,106,0.18);
+  --border-strong: rgba(201,168,106,0.42);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  font-family: "Rasa", "Inter", system-ui, sans-serif;
+  color: var(--cream);
+}
+
+@keyframes gs-ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes gs-shimmer {
+  from { background-position: -220px 0; }
+  to { background-position: 340px 0; }
+}
+@keyframes gs-float {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  14% { opacity: 0.95; }
+  100% { transform: translate3d(26px, -300px, 0); opacity: 0; }
+}
+@keyframes gs-flicker {
+  0%, 100% { opacity: 0.95; }
+  44% { opacity: 0.66; }
+  62% { opacity: 1; }
+  80% { opacity: 0.78; }
+}
+@keyframes gs-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes gs-chatter {
+  0%, 8% { opacity: 0; transform: translateY(6px); }
+  16%, 84% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; transform: translateY(-6px); }
+}
+@keyframes gs-sway {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(1deg); }
+}
+
+@keyframes gnr-ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes gnr-shimmer {
+  from { background-position: -220px 0; }
+  to { background-position: 320px 0; }
+}
+@keyframes gnr-float {
+  0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0; }
+  12% { opacity: 0.95; }
+  70% { opacity: 0.7; }
+  100% { transform: translate3d(22px, -260px, 0) scale(0.6); opacity: 0; }
+}
+@keyframes gnr-flicker {
+  0%, 100% { opacity: 0.92; }
+  43% { opacity: 0.68; }
+  61% { opacity: 1; }
+  78% { opacity: 0.8; }
+}
+@keyframes gnr-sway {
+  0%, 100% { transform: rotate(-1.2deg); }
+  50% { transform: rotate(1.2deg); }
+}
+@keyframes gnr-chatter {
+  0%, 8% { opacity: 0; transform: translateY(6px); }
+  16%, 84% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; transform: translateY(-6px); }
+}
+
+.pressable:active {
+  transform: translateY(3px) scale(0.97) !important;
+}
+
+.tune-press:active {
+  transform: scale(0.96) !important;
+}
+
+#yt-radio-player {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#yt-radio-player iframe {
+  pointer-events: none;
+  border: 0;
+}

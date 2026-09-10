@@ -1,0 +1,18 @@
+.particle {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.bulb {
+  width: 9px;
+  height: 13px;
+  border-radius: 50% 50% 55% 55%;
+  transition: background 0.9s cubic-bezier(0.4, 0.1, 0.2, 1), box-shadow 0.9s cubic-bezier(0.4, 0.1, 0.2, 1);
+}
+
+.particlesContainer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}

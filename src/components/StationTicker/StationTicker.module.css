@@ -1,0 +1,126 @@
+.container {
+  flex: 1;
+  min-width: 0;
+  padding: 9px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #5d4022, #3a2612);
+  box-shadow: inset 0 3px 7px rgba(0,0,0,.55);
+}
+
+.inner {
+  position: relative;
+  padding: 10px 12px 11px;
+  border-radius: 7px;
+  transition: all 1s cubic-bezier(0.4, 0.1, 0.2, 1);
+}
+
+.innerOn {
+  background: linear-gradient(180deg, #f6e2b4, #e2c184);
+}
+
+.innerOff {
+  background: linear-gradient(180deg, #8f8776, #6f6858);
+  box-shadow: inset 0 0 22px rgba(0,0,0,.4);
+}
+
+.stations {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 4px;
+}
+
+.freq {
+  font: 500 10.5px/1 ui-monospace, Menlo, monospace;
+  transition: color 0.5s cubic-bezier(0.4, 0.1, 0.2, 1);
+}
+
+.freqActive {
+  color: #4a2a0c;
+  font-weight: 700;
+}
+
+.freqInactive {
+  color: rgba(74, 42, 12, 0.42);
+}
+
+.dialTrack {
+  position: relative;
+  height: 26px;
+  margin-top: 6px;
+}
+
+.dialMarks {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 11px;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, rgba(60,32,10,.55) 0 1px, rgba(0,0,0,0) 1px 13px);
+}
+
+.dialNeedle {
+  position: absolute;
+  top: 0;
+  width: 3px;
+  height: 26px;
+  border-radius: 2px;
+  background: #c2181f;
+  box-shadow: 0 0 10px 2px rgba(194,24,31,.6);
+  transition: left 1.35s cubic-bezier(0.4, 0.1, 0.2, 1);
+}
+
+.screen {
+  position: relative;
+  margin-top: 9px;
+  height: 30px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: rgba(74, 42, 12, 0.14);
+  box-shadow: inset 0 1px 3px rgba(74, 42, 12, 0.35);
+}
+
+.ticker {
+  display: flex;
+  width: max-content;
+  font: 600 15px/30px 'Noto Sans Gujarati', system-ui;
+  white-space: nowrap;
+  transition: opacity 0.6s;
+}
+
+.tickerPlaying {
+  opacity: 1;
+  animation: gnr-ticker 26s linear infinite;
+}
+
+.tickerIdle {
+  opacity: 0.25;
+}
+
+.shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, rgba(255,255,255,0) 20%, rgba(255,255,255,.85) 50%, rgba(255,255,255,0) 80%);
+  background-size: 220px 100%;
+  background-repeat: no-repeat;
+  transition: opacity 0.3s;
+}
+
+.shimmerActive {
+  opacity: 1;
+  animation: gnr-shimmer 1.1s linear infinite;
+}
+
+.shimmerInactive {
+  opacity: 0;
+}
+
+.loadingText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 600 14px/1 'Noto Sans Gujarati', system-ui;
+  letter-spacing: 0.06em;
+}

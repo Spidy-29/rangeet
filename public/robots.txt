@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rangeet.vercel.app/sitemap.xml

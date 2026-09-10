@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;700;800&family=Noto+Sans+Gujarati:wght@400;500;700&display=swap">
+<script src="_ds/design-system-019e2d5b-e2f6-72f5-8845-5beed80ea32c/_ds_bundle.js"></script>
+<style>
+@keyframes gnr-ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes gnr-shimmer { from { background-position: -220px 0; } to { background-position: 320px 0; } }
+@keyframes gnr-float { 0% { transform: translate3d(0,0,0) scale(1); opacity: 0; } 12% { opacity: .95; } 70% { opacity: .7; } 100% { transform: translate3d(22px,-260px,0) scale(.6); opacity: 0; } }
+@keyframes gnr-flicker { 0%,100% { opacity: .92; } 43% { opacity: .68; } 61% { opacity: 1; } 78% { opacity: .8; } }
+@keyframes gnr-sway { 0%,100% { transform: rotate(-1.2deg); } 50% { transform: rotate(1.2deg); } }
+@keyframes gnr-chatter { 0%,8% { opacity: 0; transform: translateY(6px); } 16%,84% { opacity: 1; transform: none; } 96%,100% { opacity: 0; transform: translateY(-6px); } }
+</style>
+</helmet>
+<div style="{{ root }}">
+
+  <div style="{{ sky }}"></div>
+  <div style="position:absolute;left:0;right:0;top:0;height:100%;background:radial-gradient(58% 46% at 50% 62%, rgba(255,214,140,.30), rgba(0,0,0,0) 70%);mix-blend-mode:screen;opacity:0.9"></div>
+
+  <!-- distant skyline -->
+  <div style="position:absolute;left:0;right:0;bottom:150px;height:210px;display:flex;align-items:flex-end;gap:0;opacity:.55;filter:blur(.4px)">
+    <div style="{{ far1 }}"></div>
+    <div style="{{ far2 }}"></div>
+    <div style="{{ far3 }}"></div>
+    <div style="{{ far4 }}"></div>
+    <div style="{{ far5 }}"></div>
+    <div style="{{ far6 }}"></div>
+    <div style="{{ far7 }}"></div>
+  </div>
+
+  <!-- left haveli -->
+  <div style="{{ havLeft }}">
+    <div style="position:absolute;left:0;right:0;top:74px;height:16px;background:rgba(0,0,0,.35)"></div>
+    <div style="position:absolute;left:26px;right:26px;top:110px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px">
+      <div style="{{ win }}"></div><div style="{{ win }}"></div><div style="{{ win }}"></div>
+      <div style="{{ win }}"></div><div style="{{ winLit }}"></div><div style="{{ win }}"></div>
+    </div>
+    <div style="position:absolute;left:12px;right:12px;top:300px;height:22px;background:linear-gradient(180deg,rgba(0,0,0,.5),rgba(0,0,0,.18));box-shadow:0 6px 0 rgba(0,0,0,.22)"></div>
+    <div style="position:absolute;left:20px;right:20px;top:322px;height:64px;display:flex;gap:11px">
+      <div style="flex:1;background:rgba(0,0,0,.42)"></div><div style="flex:1;background:rgba(0,0,0,.42)"></div><div style="flex:1;background:rgba(0,0,0,.42)"></div><div style="flex:1;background:rgba(0,0,0,.42)"></div><div style="flex:1;background:rgba(0,0,0,.42)"></div><div style="flex:1;background:rgba(0,0,0,.42)"></div>
+    </div>
+  </div>
+
+  <!-- right haveli -->
+  <div style="{{ havRight }}">
+    <div style="position:absolute;left:0;right:0;top:96px;height:16px;background:rgba(0,0,0,.35)"></div>
+    <div style="position:absolute;left:26px;right:26px;top:136px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px">
+      <div style="{{ win }}"></div><div style="{{ winLit }}"></div><div style="{{ win }}"></div>
+      <div style="{{ win }}"></div><div style="{{ win }}"></div><div style="{{ win }}"></div>
+    </div>
+    <div style="position:absolute;left:12px;right:12px;top:326px;height:22px;background:linear-gradient(180deg,rgba(0,0,0,.5),rgba(0,0,0,.18));box-shadow:0 6px 0 rgba(0,0,0,.22)"></div>
+    <div style="position:absolute;left:20px;right:20px;top:348px;height:64px;display:flex;gap:11px">
+      <div style="flex:1;background:rgba(0,0,0,.42)"></div><div style="flex:1;background:rgba(0,0,0,.42)"></div><div style="flex:1;background:rgba(0,0,0,.42)"></div><div style="flex:1;background:rgba(0,0,0,.42)"></div><div style="flex:1;background:rgba(0,0,0,.42)"></div><div style="flex:1;background:rgba(0,0,0,.42)"></div>
+    </div>
+  </div>
+
+  <!-- string lights -->
+  <div style="position:absolute;left:-40px;right:-40px;top:78px;height:120px;pointer-events:none">
+    <div style="position:absolute;inset:0;border-top:0;border-radius:0 0 50% 50%/0 0 100% 100%;border-bottom:2px solid rgba(0,0,0,.45);opacity:.7"></div>
+    <div style="position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:flex-start;padding:0 24px">
+      <sc-for list="{{ bulbs }}" as="b" hint-placeholder-count="16">
+        <span style="{{ b.style }}"></span>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- floor -->
+  <div style="{{ floor }}"></div>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:150px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.16) 0 2px,rgba(0,0,0,0) 2px 92px);opacity:.6"></div>
+
+  <!-- ambient particles -->
+  <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
+    <sc-for list="{{ particles }}" as="p" hint-placeholder-count="12">
+      <span style="{{ p.style }}"></span>
+    </sc-for>
+  </div>
+
+  <!-- chatter -->
+  <div style="position:absolute;left:0;right:0;top:118px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
+    <div style="font:500 13px/1 'Noto Sans Gujarati',system-ui;letter-spacing:.34em;text-transform:uppercase;color:rgba(255,236,200,.42)">GAAM NU RADIO</div>
+    <div style="{{ wordmark }}">ગામ નું રેડિયો</div>
+    <div style="{{ chatterStyle }}">{{ chatter }}</div>
+  </div>
+
+  <!-- ================= RADIO ================= -->
+  <div style="{{ radioWrap }}">
+    <div style="{{ radioBody }}">
+      <div style="position:absolute;inset:14px;border-radius:22px;border:1px solid rgba(255,255,255,.10);pointer-events:none"></div>
+
+      <div style="display:flex;align-items:center;gap:30px">
+
+        <!-- tuning dial -->
+        <div onClick="{{ onTune }}" onMouseEnter="{{ hoverTune }}" onMouseLeave="{{ leaveTune }}" style="{{ tuneWrap }}" style-active="transform:scale(.965)">
+          <div style="{{ tuneRing }}">
+            <div style="{{ tuneKnob }}">
+              <div style="{{ tuneNotch }}"></div>
+            </div>
+          </div>
+          <div style="font:500 10px/1 'Noto Sans Gujarati',system-ui;letter-spacing:.2em;color:rgba(255,232,190,.5);text-align:center">TUNE</div>
+        </div>
+
+        <!-- dial window -->
+        <div style="{{ windowShell }}">
+          <div style="{{ windowGlass }}">
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;padding:0 4px">
+              <sc-for list="{{ freqs }}" as="f" hint-placeholder-count="4">
+                <div style="{{ f.style }}">{{ f.label }}</div>
+              </sc-for>
+            </div>
+            <div style="position:relative;height:26px;margin-top:6px">
+              <div style="position:absolute;left:0;right:0;top:11px;height:2px;background:repeating-linear-gradient(90deg,rgba(60,32,10,.55) 0 1px,rgba(0,0,0,0) 1px 13px)"></div>
+              <div style="{{ needle }}"></div>
+            </div>
+            <div style="{{ tickerWindow }}">
+              <div style="{{ tickerInner }}">
+                <span style="padding-right:64px">{{ nowPlaying }}</span>
+                <span style="padding-right:64px">{{ nowPlaying }}</span>
+              </div>
+              <div style="{{ shimmer }}"></div>
+              <div style="{{ loadingLabel }}">લોડ થાય છે…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- play knob -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:9px">
+          <div onClick="{{ onPlay }}" onMouseEnter="{{ hoverPlay }}" onMouseLeave="{{ leavePlay }}" style="{{ playKnob }}" style-active="transform:translateY(3px) scale(.97)">
+            <div style="{{ playFace }}">
+              <div style="{{ playGlyph }}"></div>
+              <div style="{{ pauseGlyph }}"></div>
+            </div>
+          </div>
+          <div style="{{ playLabel }}">{{ playLabelText }}</div>
+        </div>
+      </div>
+
+      <!-- grille + brandplate -->
+      <div style="display:flex;align-items:flex-end;gap:22px;margin-top:24px">
+        <div style="{{ grille }}"></div>
+        <div style="{{ plate }}">
+          <div style="font:700 15px/1 'Baloo Bhaijaan 2','Noto Sans Gujarati',system-ui;color:#4a2c14">ગામ નું રેડિયો</div>
+          <div style="font:500 8.5px/1 system-ui;letter-spacing:.24em;color:rgba(74,44,20,.62);margin-top:5px">TRANSISTOR · MODEL 1974</div>
+        </div>
+      </div>
+
+      <div style="position:absolute;left:22px;bottom:20px;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d9c9ad,#6d5c45);box-shadow:inset 0 -1px 1px rgba(0,0,0,.5)"></div>
+      <div style="position:absolute;right:22px;bottom:20px;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d9c9ad,#6d5c45);box-shadow:inset 0 -1px 1px rgba(0,0,0,.5)"></div>
+      <div style="position:absolute;right:26px;top:20px;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d9c9ad,#6d5c45)"></div>
+      <div style="position:absolute;left:26px;top:20px;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d9c9ad,#6d5c45)"></div>
+    </div>
+    <div style="{{ radioShadow }}"></div>
+  </div>
+
+  <!-- station band -->
+  <div style="{{ bandWrap }}">
+    <div style="{{ bandRail }}">
+      <div style="{{ bandFill }}"></div>
+      <div style="position:absolute;left:0;right:0;top:0;bottom:0;background:repeating-linear-gradient(90deg,rgba(255,232,190,.20) 0 1px,rgba(0,0,0,0) 1px 15px)"></div>
+      <div style="{{ bandMarker }}"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-top:20px">
+      <sc-for list="{{ stations }}" as="s" hint-placeholder-count="4">
+        <div onClick="{{ s.onClick }}" onMouseEnter="{{ s.onEnter }}" onMouseLeave="{{ s.onLeave }}" style="{{ s.wrap }}">
+          <div style="{{ s.name }}">{{ s.label }}</div>
+          <div style="{{ s.meta }}">{{ s.freq }} FM · {{ s.roman }}</div>
+          <div style="{{ s.underline }}"></div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- grain + vignette -->
+  <div style="position:absolute;inset:0;pointer-events:none;opacity:.42;mix-blend-mode:overlay;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22/></filter><rect width=%22160%22 height=%22160%22 filter=%22url(%23n)%22 opacity=%220.55%22/></svg>')"></div>
+  <div style="position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 190px 70px rgba(0,0,0,.62),inset 0 0 60px rgba(0,0,0,.3)"></div>
+  <div style="{{ mutedVeil }}"></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;station&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:3,&quot;tsType&quot;:&quot;number&quot;},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;idle&quot;,&quot;tuning&quot;,&quot;playing&quot;],&quot;default&quot;:&quot;playing&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;live&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const STATIONS = [
+  { label: 'ગરબા', roman: 'Garba', freq: '91.2',
+    chatter: ['એક તાળી... બોલો જય માતાજી!', 'ઢોલ ઢબૂકે, પગ થિરકે — તૈયાર?', 'હવે ત્રણ તાળી, જોર થી!'],
+    now: 'તારા વિના શ્યામ મને એકલડું લાગે · પરંપરાગત ગરબો · નવરાત્રિ ૨૦૨૫',
+    sky: 'linear-gradient(178deg,#2b0710 0%,#5a1220 42%,#a8331d 74%,#e0873a 100%)',
+    base: '#2b0710', accent: '#f5a524', accent2: '#b3122b', gold: '#e8b923', glow: 'rgba(245,165,36,.55)',
+    floor: 'linear-gradient(180deg,#4a1416,#26080c)', particle: 'diya' },
+  { label: 'ડાયરો', roman: 'Dayro', freq: '94.5',
+    chatter: ['રામ રામ... બેસો, દાયરો જામ્યો છે.', 'એક વાત કહું? સાચી છે હોં.', 'હાર્મોનિયમ તૈયાર — હવે ભજન.'],
+    now: 'શામળિયો રે ધણી · લોકવાર્તા અને ભજન · શમિયાણા લાઇવ',
+    sky: 'linear-gradient(178deg,#1b1008 0%,#3d2410 45%,#7a4a1c 76%,#c98a3e 100%)',
+    base: '#1b1008', accent: '#ffb75e', accent2: '#e8873a', gold: '#f0c274', glow: 'rgba(255,183,94,.5)',
+    floor: 'linear-gradient(180deg,#3a2412,#170e06)', particle: 'mote' },
+  { label: 'લોકગીત', roman: 'Lokgeet', freq: '98.3',
+    chatter: ['ખેતરના પવન સાથે એક ગીત...', 'દાદીમા ગાતાં એ જ સૂર.', 'ચાલો, પનઘટ સુધી.'],
+    now: 'મારે ટોડલે બેઠો રે મોર · લોકગીત · ગામડાની સવાર',
+    sky: 'linear-gradient(178deg,#16200f 0%,#2f4018 44%,#6f8f3a 74%,#d8bb62 100%)',
+    base: '#16200f', accent: '#c9a227', accent2: '#6f8f3a', gold: '#e2cb7a', glow: 'rgba(201,162,39,.45)',
+    floor: 'linear-gradient(180deg,#3a3c1b,#181c0d)', particle: 'seed' },
+  { label: 'ગુજરાતી સિનેમા', roman: 'Cinema', freq: '102.7',
+    chatter: ['શો શરૂ થવાની તૈયારીમાં છે...', 'બાલ્કની ની ટિકિટ, બે રૂપિયા.', 'પડદો ઊંચકાય છે — ધ્યાન થી.'],
+    now: 'મહેંદી તે વાવી માળવે · ગુજરાતી સિનેમા · ૧૯૭૦–૯૦ ના ગીતો',
+    sky: 'linear-gradient(178deg,#08161a 0%,#12333a 46%,#2e7c7b 76%,#8d4a4a 100%)',
+    base: '#08161a', accent: '#5fc9c0', accent2: '#7a2230', gold: '#d8b98a', glow: 'rgba(95,201,192,.42)',
+    floor: 'linear-gradient(180deg,#2a2224,#0d1416)', particle: 'mote' }
+];
+
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.state = {
+      station: p.station ?? 0,
+      mode: p.mode ?? 'playing',
+      chatterIdx: 0,
+      hover: null,
+      dialSpin: 0
+    };
+  }
+  get live() { return this.props.live !== false; }
+
+  componentDidMount() {
+    if (!this.live) return;
+    this.timer = setInterval(() => {
+      if (this.state.mode !== 'playing') return;
+      this.setState(s => ({ chatterIdx: s.chatterIdx + 1 }));
+    }, 4600);
+  }
+  componentWillUnmount() { clearInterval(this.timer); clearTimeout(this.tuneTimer); }
+
+  goTo(i) {
+    if (!this.live) return;
+    clearTimeout(this.tuneTimer);
+    this.setState(s => ({ mode: 'tuning', station: i, dialSpin: s.dialSpin + (i - s.station) * 62 + 34, chatterIdx: 0 }));
+    this.tuneTimer = setTimeout(() => this.setState({ mode: 'playing' }), 1500);
+  }
+  togglePlay() {
+    if (!this.live) return;
+    this.setState(s => ({ mode: s.mode === 'playing' ? 'idle' : 'playing', chatterIdx: 0 }));
+  }
+
+  renderVals() {
+    const { station, mode, hover } = this.state;
+    const st = STATIONS[station];
+    const off = mode === 'idle', tuning = mode === 'tuning', playing = mode === 'playing';
+    const T = 'cubic-bezier(.4,.1,.2,1)';
+    const dim = off ? 0.34 : tuning ? 0.72 : 1;
+
+    const particles = [];
+    if (!off) {
+      const n = st.particle === 'diya' ? 16 : st.particle === 'seed' ? 13 : 20;
+      for (let i = 0; i < n; i++) {
+        const big = st.particle === 'diya';
+        const size = big ? 5 + (i % 3) * 3 : st.particle === 'seed' ? 3 + (i % 2) * 2 : 2 + (i % 3);
+        particles.push({ style: {
+          position: 'absolute',
+          left: (3 + (i * 6.1) % 94) + '%',
+          bottom: (2 + (i * 13) % 46) + '%',
+          width: size, height: size, borderRadius: '50%',
+          background: big ? st.accent : 'rgba(255,240,210,.85)',
+          boxShadow: big ? `0 0 ${size * 4}px ${size}px ${st.glow}` : `0 0 ${size * 3}px rgba(255,235,190,.5)`,
+          animation: `gnr-float ${9 + (i % 7) * 2.4}s linear ${(i * 0.83).toFixed(2)}s infinite`,
+          opacity: tuning ? 0.5 : 1
+        }});
+      }
+    }
+
+    const bulbs = [];
+    for (let i = 0; i < 17; i++) {
+      const sag = Math.sin((i / 16) * Math.PI) * 56;
+      bulbs.push({ style: {
+        width: 9, height: 13, borderRadius: '50% 50% 55% 55%',
+        marginTop: sag,
+        background: off ? 'rgba(120,104,80,.5)' : st.gold,
+        boxShadow: off ? 'none' : `0 0 16px 5px ${st.glow}`,
+        animation: off ? 'none' : `gnr-flicker ${2.2 + (i % 5) * 0.7}s ease-in-out ${(i * 0.19).toFixed(2)}s infinite`,
+        transition: `background .9s ${T}, box-shadow .9s ${T}`
+      }});
+    }
+
+    const freqs = STATIONS.map((s, i) => ({
+      label: s.freq,
+      style: {
+        font: "500 10.5px/1 ui-monospace,Menlo,monospace",
+        color: i === station ? '#4a2a0c' : 'rgba(74,42,12,.42)',
+        fontWeight: i === station ? 700 : 500,
+        transition: `color .5s ${T}`
+      }
+    }));
+
+    const stations = STATIONS.map((s, i) => {
+      const active = i === station, hov = hover === 'st' + i;
+      return {
+        label: s.label, freq: s.freq, roman: s.roman,
+        onClick: () => this.goTo(i),
+        onEnter: () => this.setState({ hover: 'st' + i }),
+        onLeave: () => this.setState({ hover: null }),
+        wrap: { cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, padding: '4px 12px 0', width: 176, transform: hov && !active ? 'translateY(-3px)' : 'none', transition: `transform .3s ${T}` },
+        name: {
+          font: `${active ? 800 : 500} ${active ? 34 : 26}px/1.15 'Baloo Bhaijaan 2','Noto Sans Gujarati',system-ui`,
+          color: active ? (off ? 'rgba(255,236,200,.5)' : st.accent) : hov ? 'rgba(255,236,200,.78)' : 'rgba(255,236,200,.4)',
+          textShadow: active && !off ? `0 0 26px ${st.glow}, 0 0 60px ${st.glow}` : 'none',
+          transition: `all .55s ${T}`, textAlign: 'center', whiteSpace: 'nowrap'
+        },
+        meta: { font: "500 9.5px/1 ui-monospace,Menlo,monospace", letterSpacing: '.16em', color: active ? 'rgba(255,236,200,.62)' : 'rgba(255,236,200,.28)', transition: `color .5s ${T}` },
+        underline: { width: active ? 54 : hov ? 24 : 0, height: 2, borderRadius: 2, marginTop: 2, background: off ? 'rgba(255,236,200,.4)' : st.accent, boxShadow: active && !off ? `0 0 14px ${st.glow}` : 'none', transition: `all .5s ${T}` }
+      };
+    });
+
+    const knobHover = hover === 'tune', playHover = hover === 'play';
+
+    return {
+      particles, bulbs, freqs, stations,
+      chatter: off ? 'રેડિયો બંધ છે — નૉબ દબાવો.' : tuning ? 'ટ્યુન થાય છે…' : st.chatter[this.state.chatterIdx % st.chatter.length],
+      nowPlaying: st.now,
+      playLabelText: off ? 'ચાલુ કરો' : playing ? 'વાગે છે' : 'ટ્યુનિંગ',
+      onTune: () => this.goTo((station + 1) % 4),
+      onPlay: () => this.togglePlay(),
+      hoverTune: () => this.setState({ hover: 'tune' }), leaveTune: () => this.setState({ hover: null }),
+      hoverPlay: () => this.setState({ hover: 'play' }), leavePlay: () => this.setState({ hover: null }),
+
+      root: { position: 'relative', width: 1440, height: 900, overflow: 'hidden', background: st.base, fontFamily: "'Noto Sans Gujarati',system-ui", userSelect: 'none', transition: `background 1.1s ${T}` },
+      sky: { position: 'absolute', inset: 0, background: st.sky, filter: off ? 'saturate(.28) brightness(.5)' : tuning ? 'saturate(.7) brightness(.82)' : 'none', transition: `background 1.2s ${T}, filter 1.2s ${T}` },
+
+      far1: { width: '13%', height: '52%', background: 'rgba(0,0,0,.6)' },
+      far2: { width: '9%', height: '78%', background: 'rgba(0,0,0,.62)', borderRadius: '4px 4px 0 0' },
+      far3: { width: '16%', height: '40%', background: 'rgba(0,0,0,.58)' },
+      far4: { width: '11%', height: '92%', background: 'rgba(0,0,0,.64)', borderRadius: '50% 50% 0 0/22% 22% 0 0' },
+      far5: { width: '18%', height: '46%', background: 'rgba(0,0,0,.58)' },
+      far6: { width: '12%', height: '68%', background: 'rgba(0,0,0,.62)' },
+      far7: { width: '21%', height: '36%', background: 'rgba(0,0,0,.56)' },
+
+      havLeft: { position: 'absolute', left: -30, bottom: 118, width: 360, height: 500, background: 'linear-gradient(180deg,rgba(10,4,2,.86),rgba(10,4,2,.62))', borderRadius: '6px 10px 0 0', boxShadow: '18px 0 60px rgba(0,0,0,.5)' },
+      havRight: { position: 'absolute', right: -30, bottom: 118, width: 340, height: 530, background: 'linear-gradient(180deg,rgba(10,4,2,.86),rgba(10,4,2,.6))', borderRadius: '10px 6px 0 0', boxShadow: '-18px 0 60px rgba(0,0,0,.5)' },
+      win: { height: 78, borderRadius: '40% 40% 3px 3px', background: 'rgba(0,0,0,.55)', boxShadow: 'inset 0 0 0 1px rgba(255,240,210,.06)' },
+      winLit: { height: 78, borderRadius: '40% 40% 3px 3px', background: off ? 'rgba(90,74,52,.5)' : `linear-gradient(180deg,${st.gold},${st.accent2})`, boxShadow: off ? 'none' : `0 0 34px 8px ${st.glow}`, animation: off ? 'none' : 'gnr-flicker 4.3s ease-in-out infinite', transition: `all 1s ${T}` },
+
+      floor: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 150, background: st.floor, boxShadow: 'inset 0 22px 44px rgba(0,0,0,.55)', transition: `background 1.2s ${T}` },
+
+      wordmark: { font: "800 46px/1 'Baloo Bhaijaan 2','Noto Sans Gujarati',system-ui", color: off ? 'rgba(255,236,200,.42)' : '#ffeccd', textShadow: off ? 'none' : `0 0 44px ${st.glow}`, transition: `all .9s ${T}` },
+      chatterStyle: { font: "500 20px/1.4 'Noto Sans Gujarati',system-ui", color: off ? 'rgba(255,236,200,.34)' : 'rgba(255,236,200,.86)', maxWidth: 620, animation: playing ? 'gnr-chatter 4.6s ease-in-out infinite' : 'none', transition: `color .8s ${T}` },
+
+      radioWrap: { position: 'absolute', left: '50%', top: 342, transform: 'translateX(-50%)', width: 740 },
+      radioBody: { position: 'relative', padding: '30px 34px 30px', borderRadius: 30, background: 'linear-gradient(168deg,#e7d3ae 0%,#cfae7e 34%,#9d7343 78%,#7a5530 100%)', boxShadow: `inset 0 2px 0 rgba(255,255,255,.5), inset 0 -12px 26px rgba(60,32,10,.42), 0 34px 70px rgba(0,0,0,.6), 0 0 0 2px rgba(60,32,10,.38)${off ? '' : `, 0 0 120px 12px ${st.glow}`}`, transition: `box-shadow 1s ${T}` },
+
+      tuneWrap: { cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 9, transition: `transform .2s ${T}`, transform: knobHover ? 'scale(1.04)' : 'none' },
+      tuneRing: { width: 106, height: 106, borderRadius: '50%', padding: 9, background: 'conic-gradient(from 0deg, #6d4b28, #b58f5c, #6d4b28, #b58f5c, #6d4b28)', boxShadow: `inset 0 0 0 1px rgba(0,0,0,.35), 0 10px 20px rgba(0,0,0,.45)${knobHover ? `, 0 0 26px 4px ${st.glow}` : ''}`, transition: `box-shadow .3s ${T}` },
+      tuneKnob: { position: 'relative', width: '100%', height: '100%', borderRadius: '50%', background: 'radial-gradient(circle at 34% 28%, #4a3520, #221609 70%)', boxShadow: 'inset 0 2px 4px rgba(255,220,170,.22), inset 0 -6px 12px rgba(0,0,0,.6)', transform: `rotate(${this.state.dialSpin}deg)`, transition: `transform 1.4s ${T}` },
+      tuneNotch: { position: 'absolute', left: '50%', top: 8, width: 4, height: 26, marginLeft: -2, borderRadius: 3, background: off ? 'rgba(230,210,180,.5)' : st.accent, boxShadow: off ? 'none' : `0 0 12px 2px ${st.glow}`, transition: `all .6s ${T}` },
+
+      windowShell: { flex: 1, minWidth: 0, padding: 9, borderRadius: 12, background: 'linear-gradient(180deg,#5d4022,#3a2612)', boxShadow: 'inset 0 3px 7px rgba(0,0,0,.55)' },
+      windowGlass: { position: 'relative', padding: '10px 12px 11px', borderRadius: 7, background: off ? 'linear-gradient(180deg,#8f8776,#6f6858)' : `linear-gradient(180deg,#f6e2b4,#e2c184)`, boxShadow: off ? 'inset 0 0 22px rgba(0,0,0,.4)' : `inset 0 0 26px ${st.glow}, 0 0 22px 2px ${st.glow}`, transition: `all 1s ${T}` },
+
+      needle: { position: 'absolute', top: 0, left: `calc(${6 + station * 29.3}% )`, width: 3, height: 26, borderRadius: 2, background: '#c2181f', boxShadow: '0 0 10px 2px rgba(194,24,31,.6)', transition: `left 1.35s ${T}` },
+
+      tickerWindow: { position: 'relative', marginTop: 9, height: 30, overflow: 'hidden', borderRadius: 4, background: 'rgba(74,42,12,.14)', boxShadow: 'inset 0 1px 3px rgba(74,42,12,.35)' },
+      tickerInner: { display: 'flex', width: 'max-content', font: "600 15px/30px 'Noto Sans Gujarati',system-ui", color: '#4a2a0c', whiteSpace: 'nowrap', animation: playing ? 'gnr-ticker 26s linear infinite' : 'none', opacity: playing ? 1 : 0.25, transition: 'opacity .6s' },
+      shimmer: { position: 'absolute', inset: 0, opacity: tuning ? 1 : 0, background: 'linear-gradient(100deg, rgba(255,255,255,0) 20%, rgba(255,255,255,.85) 50%, rgba(255,255,255,0) 80%)', backgroundSize: '220px 100%', backgroundRepeat: 'no-repeat', animation: tuning ? 'gnr-shimmer 1.1s linear infinite' : 'none', transition: 'opacity .3s' },
+      loadingLabel: { position: 'absolute', inset: 0, display: tuning ? 'flex' : 'none', alignItems: 'center', justifyContent: 'center', font: "600 14px/1 'Noto Sans Gujarati',system-ui", color: 'rgba(74,42,12,.8)', letterSpacing: '.06em' },
+
+      playKnob: { cursor: 'pointer', width: 116, height: 116, borderRadius: '50%', padding: 11, background: 'conic-gradient(from 20deg,#7a5530,#c9a56f,#7a5530,#c9a56f,#7a5530)', boxShadow: `0 12px 0 rgba(60,32,10,.55), 0 20px 30px rgba(0,0,0,.5)${playHover ? `, 0 0 32px 6px ${st.glow}` : ''}`, transform: playHover ? 'translateY(-2px)' : 'none', transition: `all .2s ${T}` },
+      playFace: { position: 'relative', width: '100%', height: '100%', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: off ? 'radial-gradient(circle at 36% 26%,#3c2a17,#160d05)' : `radial-gradient(circle at 36% 26%,${st.accent},${st.accent2})`, boxShadow: off ? 'inset 0 -6px 14px rgba(0,0,0,.6)' : `inset 0 -6px 14px rgba(0,0,0,.4), 0 0 30px 4px ${st.glow}`, transition: `all .7s ${T}` },
+      playGlyph: { position: 'absolute', display: off ? 'block' : 'none', width: 0, height: 0, marginLeft: 6, borderLeft: '26px solid rgba(255,236,200,.85)', borderTop: '16px solid transparent', borderBottom: '16px solid transparent' },
+      pauseGlyph: { position: 'absolute', display: off ? 'none' : 'block', width: 24, height: 30, borderLeft: '8px solid rgba(38,18,6,.82)', borderRight: '8px solid rgba(38,18,6,.82)', boxSizing: 'border-box' },
+      playLabel: { font: "600 11px/1 'Noto Sans Gujarati',system-ui", letterSpacing: '.14em', color: 'rgba(255,236,200,.6)' },
+
+      grille: { flex: 1, height: 62, borderRadius: 9, background: 'repeating-linear-gradient(180deg, rgba(60,32,10,.55) 0 3px, rgba(226,204,166,.5) 3px 7px)', boxShadow: 'inset 0 0 0 1px rgba(60,32,10,.3), inset 0 2px 6px rgba(0,0,0,.35)' },
+      plate: { padding: '11px 18px', borderRadius: 8, background: 'linear-gradient(180deg,#dcc9a4,#bfa375)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,.6), 0 2px 5px rgba(0,0,0,.35)', textAlign: 'right' },
+      radioShadow: { position: 'absolute', left: '50%', bottom: -46, transform: 'translateX(-50%)', width: 700, height: 46, borderRadius: '50%', background: 'radial-gradient(ellipse at center, rgba(0,0,0,.62), rgba(0,0,0,0) 70%)' },
+
+      bandWrap: { position: 'absolute', left: '50%', transform: 'translateX(-50%)', bottom: 66, width: 900 },
+      bandRail: { position: 'relative', height: 18, borderRadius: 9, background: 'rgba(20,10,4,.55)', boxShadow: 'inset 0 2px 5px rgba(0,0,0,.6), 0 1px 0 rgba(255,236,200,.08)', overflow: 'hidden' },
+      bandFill: { position: 'absolute', left: 0, top: 0, bottom: 0, width: `${12 + station * 29}%`, background: off ? 'rgba(255,236,200,.14)' : `linear-gradient(90deg, rgba(255,236,200,.05), ${st.accent})`, opacity: off ? 1 : .55, transition: `all 1.35s ${T}` },
+      bandMarker: { position: 'absolute', top: -4, left: `calc(${12 + station * 29}% - 2px)`, width: 4, height: 26, borderRadius: 3, background: off ? 'rgba(255,236,200,.5)' : '#ffeccd', boxShadow: off ? 'none' : `0 0 16px 4px ${st.glow}`, transition: `all 1.35s ${T}` },
+
+      mutedVeil: { position: 'absolute', inset: 0, pointerEvents: 'none', background: 'rgba(8,4,2,.55)', opacity: off ? 1 : 0, transition: `opacity 1s ${T}` }
+    };
+  }
+}
+</script>
+</body>
+</html>

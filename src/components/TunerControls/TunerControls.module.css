@@ -1,0 +1,92 @@
+/* TunerKnob */
+.knobContainer {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s cubic-bezier(0.4, 0.1, 0.2, 1);
+}
+
+.knobOuter {
+  border-radius: 50%;
+  box-sizing: border-box;
+  background: conic-gradient(from 0deg, #6d4b28, #b58f5c, #6d4b28, #b58f5c, #6d4b28);
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0.1, 0.2, 1);
+}
+
+.knobInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, #4a3520, #221609 70%);
+  box-shadow: inset 0 2px 4px rgba(255,220,170,.22), inset 0 -6px 12px rgba(0,0,0,.6);
+  transition: transform 1.4s cubic-bezier(0.4, 0.1, 0.2, 1);
+}
+
+.needle {
+  position: absolute;
+  left: 50%;
+  border-radius: 3px;
+  transition: all 0.6s cubic-bezier(0.4, 0.1, 0.2, 1);
+}
+
+.label {
+  font: 500 10px/1 'Noto Sans Gujarati', system-ui;
+  letter-spacing: 0.2em;
+  color: rgba(255,232,190,.5);
+  text-align: center;
+}
+
+/* PlayButton */
+.playContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+}
+
+.playBtn {
+  cursor: pointer;
+  flex: none;
+  border-radius: 50%;
+  box-sizing: border-box;
+  background: conic-gradient(from 20deg,#7a5530,#c9a56f,#7a5530,#c9a56f,#7a5530);
+  transition: all 0.2s cubic-bezier(0.4, 0.1, 0.2, 1);
+}
+
+.playInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.7s cubic-bezier(0.4, 0.1, 0.2, 1);
+}
+
+.playTriangle {
+  width: 0;
+  height: 0;
+  border-left-style: solid;
+  border-left-color: rgba(255,236,200,.85);
+  border-top-style: solid;
+  border-top-color: transparent;
+  border-bottom-style: solid;
+  border-bottom-color: transparent;
+}
+
+.pauseLines {
+  box-sizing: border-box;
+  border-left-style: solid;
+  border-left-color: rgba(38,18,6,.82);
+  border-right-style: solid;
+  border-right-color: rgba(38,18,6,.82);
+}
+
+.playLabel {
+  font: 600 11px/1 'Noto Sans Gujarati', system-ui;
+  letter-spacing: 0.14em;
+  color: rgba(255,236,200,.6);
+}
