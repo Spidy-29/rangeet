@@ -31,6 +31,8 @@ declare global {
       setShuffle(shufflePlaylist: boolean): void;
       nextVideo(): void;
       previousVideo(): void;
+      getVideoData(): { video_id: string; title: string; author: string };
+      getPlaylistIndex(): number;
     }
 
     interface PlayerOptions {

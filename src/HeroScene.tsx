@@ -45,9 +45,12 @@ export function HeroScene() {
       
       <div className={styles.header}>
         <div className={styles.logoArea}>
-          <div className={styles.logoTitle}>રંગીત</div>
-          <div className={styles.logoSub}>
-             RANGEET · રંગમાં સન્ન
+          <img src="/rangeet-logo.png" alt="Rangeet" className={styles.logoImage} />
+          <div className={styles.logoText}>
+            <div className={styles.logoTitle}>રંગીત</div>
+            <div className={styles.logoSub}>
+               RANGEET · રંગમાં સન્ન
+            </div>
           </div>
         </div>
         
@@ -103,7 +106,10 @@ export function HeroScene() {
       {/* Drawer panel */}
       <div className={`${styles.drawer} ${drawerOpen ? styles.drawerOpen : ""}`}>
         <div className={styles.drawerHeader}>
-          <span className={styles.drawerTitle}>મેનુ</span>
+          <div className={styles.drawerBrand}>
+            <img src="/rangeet-logo.png" alt="Rangeet" className={styles.drawerLogoImage} />
+            <span className={styles.drawerTitle}>રંગીત</span>
+          </div>
           <button 
             className={styles.drawerCloseBtn} 
             onClick={() => setDrawerOpen(false)}
@@ -126,7 +132,7 @@ export function HeroScene() {
                 onClick={() => handleStationClick(i)}
               >
                 <span className={styles.drawerStationName}>{s.label}</span>
-                <span className={styles.drawerStationMeta}>{s.roman} · {s.freq} FM</span>
+                <span className={styles.drawerStationMeta}>{s.roman}</span>
               </button>
             ))}
           </div>

@@ -50,6 +50,115 @@
   margin: 0;
 }
 
+/* ── FAQ Section ── */
+
+.faqSection {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: clamp(48px, 6vw, 80px);
+}
+
+.faqTitle {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 32px;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.faqItem {
+  border-top: 1px solid var(--border);
+}
+
+.faqItem:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.faqQuestion {
+  appearance: none;
+  background: none;
+  border: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0;
+  cursor: pointer;
+  font-family: 'Rasa', serif;
+  font-size: clamp(16px, 1.6vw, 20px);
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--cream);
+  text-align: left;
+  transition: color 0.2s;
+}
+
+.faqQuestion:hover {
+  color: var(--amber);
+}
+
+.faqIcon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  transition: color 0.2s, border-color 0.2s, transform 0.3s;
+}
+
+.faqItemOpen .faqIcon {
+  color: var(--amber);
+  border-color: var(--amber);
+}
+
+.faqAnswer {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.35s ease;
+  padding: 0 0 0 0;
+}
+
+.faqAnswer[hidden] {
+  display: block;
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
+}
+
+.faqItemOpen .faqAnswer,
+.faqAnswer:not([hidden]) {
+  max-height: 200px;
+  opacity: 1;
+  padding: 0 0 20px 0;
+}
+
+.faqAnswer p {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(14px, 1.2vw, 16px);
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 600px;
+}
+
 @media (max-width: 700px) {
   .content {
     grid-template-columns: 1fr;

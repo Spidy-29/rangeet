@@ -59,8 +59,29 @@
 
 .logoArea {
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+}
+
+.logoImage {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px rgba(232, 163, 61, 0.4));
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.logoImage:hover {
+  filter: drop-shadow(0 0 20px rgba(232, 163, 61, 0.6));
+  transform: scale(1.05);
+}
+
+.logoText {
+  display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 .logoTitle {
@@ -209,6 +230,20 @@
   font-weight: 700;
   font-size: 22px;
   color: var(--cream, #F4EBDD);
+}
+
+.drawerBrand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.drawerLogoImage {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(232, 163, 61, 0.3));
 }
 
 .drawerCloseBtn {
@@ -623,6 +658,14 @@
   }
   .logoTitle {
     font-size: 26px;
+  }
+  .logoImage {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+  }
+  .logoText {
+    gap: 2px;
   }
   .logoSub {
     font-size: 8px;

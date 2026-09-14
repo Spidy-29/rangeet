@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import styles from "./FloatingPlayer.module.css";
 import { useRadioPlayer } from "../RadioPlayer";
-import { tickerFromTrack } from "../playlists";
 import { STATION_CONFIGS } from "../constants/stations";
 
 function formatTime(seconds: number) {
@@ -15,7 +14,6 @@ export function FloatingPlayer() {
   const {
     station,
     mode,
-    currentTrack,
     togglePlay,
     nextTrack,
     prevTrack,
@@ -24,6 +22,8 @@ export function FloatingPlayer() {
     currentTime,
     duration,
     seekTo,
+    videoTitle,
+    videoAuthor,
   } = useRadioPlayer();
 
   const [scrolled, setScrolled] = useState(false);
@@ -71,9 +71,17 @@ export function FloatingPlayer() {
   const st = STATION_CONFIGS[station];
   const off = mode === "idle";
   const playing = mode === "playing";
-  const nowPlaying = tickerFromTrack(currentTrack) || st.now;
-  const [trackTitle, ...trackSubParts] = nowPlaying.split("·").map((s) => s.trim());
-  const trackSubtitle = trackSubParts.join(" · ");
+  const tuning = mode === "tuning";
+
+  // Derive display title: prefer real YouTube video title, fallback to station info
+  const displayTitle = videoTitle || st.now.split("·")[0].trim();
+  const displaySubtitle = videoAuthor || st.roman;
+
+  // Seek bar progress percentage
+  const seekPercent = useMemo(() => {
+    if (!duration || duration <= 0) return 0;
+    return Math.min((currentTime / duration) * 100, 100);
+  }, [currentTime, duration]);
 
   const isMinimized = scrolled && !isExpanded;
 
@@ -88,18 +96,19 @@ export function FloatingPlayer() {
           aria-label="Expand player"
         >
           <div className={styles.trackInfo}>
+            {/* Equalizer for minimized */}
             <div className={styles.equalizer}>
               <span className={playing ? styles.barAnim : ""} />
               <span className={playing ? styles.barAnim : ""} />
               <span className={playing ? styles.barAnim : ""} />
             </div>
             <div className={styles.titles}>
-              <div className={styles.title}>{trackTitle}</div>
+              <div className={styles.title}>{displayTitle}</div>
             </div>
           </div>
           
           <button 
-            className={styles.playPauseBtnMini} 
+            className={`${styles.playPauseBtnMini} ${tuning ? styles.tuningPulse : ""}`}
             onClick={(e) => {
               e.stopPropagation();
               togglePlay();
@@ -117,14 +126,25 @@ export function FloatingPlayer() {
         <div className={styles.playerPanel}>
           <div className={styles.mainControlsRow}>
             <div className={styles.trackInfo}>
+              {/* Equalizer animation */}
               <div className={styles.equalizer}>
                 <span className={playing ? styles.barAnim : ""} />
                 <span className={playing ? styles.barAnim : ""} />
                 <span className={playing ? styles.barAnim : ""} />
               </div>
               <div className={styles.titles}>
-                <div className={styles.title}>{trackTitle}</div>
-                <div className={styles.subtitle}>{trackSubtitle}</div>
+                {(playing || tuning) && (
+                  <div className={styles.nowPlayingLabel}>
+                    <span className={styles.nowPlayingDot} />
+                    {tuning ? "TUNING..." : "NOW PLAYING"}
+                  </div>
+                )}
+                <div className={`${styles.title} ${styles.titleExpanded}`}>{displayTitle}</div>
+                <div className={styles.subtitle}>{displaySubtitle}</div>
+                {/* Station badge */}
+                <div className={styles.stationBadge} style={{ borderColor: st.accent + '60', color: st.accent }}>
+                  {st.label}
+                </div>
               </div>
             </div>
 
@@ -133,9 +153,11 @@ export function FloatingPlayer() {
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="19 20 9 12 19 4 19 20" /><line x1="5" y1="19" x2="5" y2="5" /></svg>
               </button>
               
-              <button className={styles.playPauseBtn} onClick={togglePlay} aria-label="Play/Pause" title="Play/Pause (Space)">
+              <button className={`${styles.playPauseBtn} ${tuning ? styles.tuningPulse : ""}`} onClick={togglePlay} aria-label="Play/Pause" title="Play/Pause (Space)">
                 {off ? (
                   <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                ) : tuning ? (
+                  <div className={styles.tuningSpinner} />
                 ) : (
                   <svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
                 )}
@@ -172,15 +194,18 @@ export function FloatingPlayer() {
 
           <div className={styles.seekGroup}>
             <span className={styles.timeLabel}>{formatTime(currentTime)}</span>
-            <input
-              type="range"
-              min="0"
-              max={duration || 100}
-              value={currentTime}
-              onChange={(e) => seekTo(Number(e.target.value))}
-              className={`${styles.rangeSlider} ${styles.seekSlider}`}
-              aria-label="Seek time"
-            />
+            <div className={styles.seekBarWrap}>
+              <div className={styles.seekBarFill} style={{ width: `${seekPercent}%` }} />
+              <input
+                type="range"
+                min="0"
+                max={duration || 100}
+                value={currentTime}
+                onChange={(e) => seekTo(Number(e.target.value))}
+                className={`${styles.rangeSlider} ${styles.seekSlider}`}
+                aria-label="Seek time"
+              />
+            </div>
             <span className={styles.timeLabel}>{formatTime(duration)}</span>
           </div>
         </div>

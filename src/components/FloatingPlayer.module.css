@@ -1,3 +1,4 @@
+/* ──── Container ──── */
 .container {
   position: fixed;
   bottom: 40px;
@@ -19,9 +20,10 @@
   right: 24px;
   transform: none;
   width: auto;
-  max-width: 320px;
+  max-width: 340px;
 }
 
+/* ──── Panel ──── */
 .playerPanel {
   display: flex;
   flex-direction: column;
@@ -36,8 +38,8 @@
 }
 
 .scrolled .playerPanel {
-  background: rgba(18, 16, 13, 0.9);
-  backdrop-filter: blur(20px);
+  background: rgba(18, 16, 13, 0.92);
+  backdrop-filter: blur(24px);
   border-color: rgba(232, 163, 61, 0.4);
   padding: 16px 24px;
   border-radius: 24px;
@@ -60,6 +62,7 @@
   border-color: rgba(232, 163, 61, 0.6);
 }
 
+/* ──── Main Row ──── */
 .mainControlsRow {
   display: flex;
   align-items: center;
@@ -68,14 +71,16 @@
   width: 100%;
 }
 
+/* ──── Track Info ──── */
 .trackInfo {
   display: flex;
   align-items: center;
   gap: 16px;
   flex: 1;
-  min-width: 0; /* for truncation */
+  min-width: 0;
 }
 
+/* ──── Equalizer ──── */
 .equalizer {
   display: flex;
   gap: 3px;
@@ -104,10 +109,43 @@
   100% { height: 16px; }
 }
 
+/* ──── Titles ──── */
 .titles {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  gap: 2px;
+}
+
+.nowPlayingLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Inter", sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--amber);
+  text-transform: uppercase;
+  animation: fadeSlideIn 0.4s ease-out;
+}
+
+.nowPlayingDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--amber);
+  animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--amber); }
+  50% { opacity: 0.4; box-shadow: none; }
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .title {
@@ -118,7 +156,12 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 150px; /* Limit for minimized view */
+  max-width: 150px;
+  transition: max-width 0.4s ease;
+}
+
+.titleExpanded {
+  max-width: 320px;
 }
 
 .subtitle {
@@ -130,6 +173,25 @@
   text-overflow: ellipsis;
 }
 
+/* ──── Station Badge ──── */
+.stationBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid;
+  font-family: "Inter", sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  width: fit-content;
+  transition: all 0.3s ease;
+}
+
+/* ──── Controls ──── */
 .controls {
   display: flex;
   align-items: center;
@@ -148,12 +210,17 @@
   justify-content: center;
   cursor: pointer;
   border-radius: 50%;
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .iconBtn:hover {
   color: var(--cream);
   background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.iconBtn:active {
+  transform: scale(0.95);
 }
 
 .iconBtn svg {
@@ -161,6 +228,7 @@
   height: 18px;
 }
 
+/* ──── Play/Pause Button ──── */
 .playPauseBtn {
   appearance: none;
   background: var(--amber);
@@ -173,13 +241,18 @@
   justify-content: center;
   cursor: pointer;
   border-radius: 50%;
-  transition: all 0.2s;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
   box-shadow: 0 4px 16px rgba(245, 165, 36, 0.4);
+  position: relative;
 }
 
 .playPauseBtn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(245, 165, 36, 0.6);
+  transform: scale(1.08);
+  box-shadow: 0 6px 24px rgba(245, 165, 36, 0.6);
+}
+
+.playPauseBtn:active {
+  transform: scale(0.95);
 }
 
 .playPauseBtn svg {
@@ -187,6 +260,35 @@
   height: 28px;
 }
 
+/* ──── Tuning Pulse ──── */
+.tuningPulse {
+  animation: tuningGlow 1.5s ease-in-out infinite;
+}
+
+@keyframes tuningGlow {
+  0%, 100% {
+    box-shadow: 0 4px 16px rgba(245, 165, 36, 0.4), 0 0 0 0 rgba(245, 165, 36, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(245, 165, 36, 0.6), 0 0 0 10px rgba(245, 165, 36, 0);
+  }
+}
+
+/* ──── Tuning Spinner ──── */
+.tuningSpinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid rgba(17, 17, 17, 0.3);
+  border-top-color: #111;
+  border-radius: 50%;
+  animation: spinLoader 0.8s linear infinite;
+}
+
+@keyframes spinLoader {
+  to { transform: rotate(360deg); }
+}
+
+/* ──── Mini Play Button ──── */
 .playPauseBtnMini {
   appearance: none;
   background: var(--amber);
@@ -199,13 +301,17 @@
   justify-content: center;
   cursor: pointer;
   border-radius: 50%;
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
   flex-shrink: 0;
 }
 
 .playPauseBtnMini:hover {
-  transform: scale(1.05);
+  transform: scale(1.08);
   background: var(--gold);
+}
+
+.playPauseBtnMini:active {
+  transform: scale(0.95);
 }
 
 .playPauseBtnMini svg {
@@ -213,6 +319,7 @@
   height: 20px;
 }
 
+/* ──── Minimize Button ──── */
 .minimizeBtn {
   appearance: none;
   background: transparent;
@@ -238,6 +345,7 @@
   height: 18px;
 }
 
+/* ──── Volume Group ──── */
 .volGroup {
   display: flex;
   align-items: center;
@@ -246,11 +354,44 @@
   flex: 1;
 }
 
+/* ──── Seek Bar ──── */
 .seekGroup {
   display: flex;
   align-items: center;
   gap: 12px;
   width: 100%;
+}
+
+.seekBarWrap {
+  position: relative;
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.seekBarFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--amber) 0%, var(--gold) 100%);
+  transition: width 0.3s linear;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.seekBarWrap .seekSlider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  z-index: 2;
+  background: transparent;
 }
 
 .seekSlider {
@@ -266,12 +407,14 @@
   text-align: center;
 }
 
+/* ──── Volume Icon ──── */
 .volIcon {
   width: 16px;
   height: 16px;
   color: var(--muted);
 }
 
+/* ──── Range Slider ──── */
 .rangeSlider {
   appearance: none;
   background: rgba(255, 255, 255, 0.1);
@@ -293,7 +436,7 @@
   border-radius: 50%;
   background: var(--amber);
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
 
@@ -306,6 +449,7 @@
   width: 80px;
 }
 
+/* ──── Tablet ──── */
 @media (max-width: 800px) {
   .mainControlsRow {
     flex-direction: column;
@@ -315,9 +459,15 @@
     justify-content: center;
     text-align: center;
   }
+  .titles {
+    align-items: center;
+  }
   .volGroup {
     width: 100%;
     justify-content: center;
+  }
+  .titleExpanded {
+    max-width: 260px;
   }
 }
 
@@ -332,7 +482,7 @@
   }
   .minimized {
     right: 12px;
-    max-width: 260px;
+    max-width: 280px;
   }
   .playerPanel {
     padding: 16px 18px;
@@ -351,13 +501,27 @@
     justify-content: center;
     text-align: center;
   }
+  .titles {
+    align-items: center;
+  }
   .title {
-    max-width: 200px;
+    max-width: 180px;
     font-size: 14px;
+  }
+  .titleExpanded {
+    max-width: 220px;
   }
   .subtitle {
     font-size: 11px;
   }
+  .nowPlayingLabel {
+    font-size: 8px;
+    justify-content: center;
+  }
+  .stationBadge {
+    font-size: 8px;
+  }
+
   .controls {
     gap: 12px;
   }

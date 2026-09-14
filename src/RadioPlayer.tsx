@@ -26,6 +26,8 @@ type RadioPlayerValue = {
   currentTime: number;
   duration: number;
   seekTo: (seconds: number) => void;
+  videoTitle: string;
+  videoAuthor: string;
 };
 
 const RadioPlayerContext = createContext<RadioPlayerValue | null>(null);
@@ -61,6 +63,7 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
   const playerReadyRef = useRef(false);
   const usingFallbackRef = useRef(false);
   const pendingStartRef = useRef(false);
+  const ytInitStartedRef = useRef(false);
 
   const [station, setStation] = useState(0);
   const [mode, setMode] = useState<Mode>("idle");
@@ -69,6 +72,8 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
   const [volume, setVolumeState] = useState(80);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [videoTitle, setVideoTitle] = useState("");
+  const [videoAuthor, setVideoAuthor] = useState("");
 
   const apiRef = useRef({
     applyVolume: () => {},
@@ -155,16 +160,17 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  useEffect(() => {
-    let cancelled = false;
-    let player: YT.Player | null = null;
+  /** Lazily initialise the YouTube player — only called on first user interaction */
+  const ensureYTPlayer = () => {
+    if (ytInitStartedRef.current) return;
+    ytInitStartedRef.current = true;
 
     loadYouTubeIframeAPI().then(() => {
-      if (cancelled || !hostRef.current || !window.YT?.Player) return;
+      if (!hostRef.current || !window.YT?.Player) return;
       hostRef.current.replaceChildren();
       const mount = document.createElement("div");
       hostRef.current.appendChild(mount);
-      player = new window.YT.Player(mount, {
+      const player = new window.YT.Player(mount, {
         width: 320,
         height: 180,
         playerVars: {
@@ -199,12 +205,15 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
       });
       playerRef.current = player;
     });
+  };
 
+  // Cleanup on unmount (HMR etc.)
+  useEffect(() => {
     return () => {
-      cancelled = true;
       playerReadyRef.current = false;
+      ytInitStartedRef.current = false;
       try {
-        player?.destroy();
+        playerRef.current?.destroy();
       } catch {
         /* player may already be gone on HMR */
       }
@@ -222,6 +231,7 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
       return;
     }
     wantPlayRef.current = true;
+    ensureYTPlayer();
     logCustomEvent("radio_play", { station: stationName(stationRef.current) });
     if (mode === "idle" && currentTrack && playerReadyRef.current) {
       setMode("tuning");
@@ -243,6 +253,8 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
     });
     stationRef.current = index;
     setStation(index);
+    setVideoTitle("");
+    setVideoAuthor("");
     if (!wantPlayRef.current) {
       setCurrentTrack(null);
       return;
@@ -262,12 +274,14 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
   const nextTrack = () => {
     logCustomEvent("radio_next_track", { station: stationName(stationRef.current) });
     if (!wantPlayRef.current) wantPlayRef.current = true;
+    ensureYTPlayer();
     playerRef.current?.nextVideo();
   };
 
   const prevTrack = () => {
     logCustomEvent("radio_prev_track", { station: stationName(stationRef.current) });
     if (!wantPlayRef.current) wantPlayRef.current = true;
+    ensureYTPlayer();
     playerRef.current?.previousVideo();
   };
 
@@ -294,6 +308,9 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
           try {
             setCurrentTime(playerRef.current.getCurrentTime() || 0);
             setDuration(playerRef.current.getDuration() || 0);
+            const vd = playerRef.current.getVideoData();
+            if (vd?.title) setVideoTitle(vd.title);
+            if (vd?.author) setVideoAuthor(vd.author);
           } catch (e) {
             // Ignore if player is not fully initialized
           }
@@ -319,6 +336,8 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
     currentTime,
     duration,
     seekTo,
+    videoTitle,
+    videoAuthor,
   };
 
   return (
@@ -347,3 +366,4 @@ export function useRadioPlayer(): RadioPlayerValue {
   if (!ctx) throw new Error("useRadioPlayer must be used within RadioPlayerProvider");
   return ctx;
 }
+
