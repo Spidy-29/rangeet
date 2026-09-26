@@ -58,14 +58,15 @@ function stationName(index: number): string {
 export function RadioPlayerProvider({ children }: { children: ReactNode }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<YT.Player | null>(null);
-  const stationRef = useRef(0);
+  const [initialStation] = useState(() => Math.floor(Math.random() * STATION_KEYS.length));
+  const stationRef = useRef(initialStation);
   const wantPlayRef = useRef(false);
   const playerReadyRef = useRef(false);
   const usingFallbackRef = useRef(false);
   const pendingStartRef = useRef(false);
   const ytInitStartedRef = useRef(false);
 
-  const [station, setStation] = useState(0);
+  const [station, setStation] = useState(initialStation);
   const [mode, setMode] = useState<Mode>("idle");
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
   const [ready, setReady] = useState(false);
@@ -106,6 +107,7 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
       startSeconds: 0,
     });
     player.setShuffle(true);
+    player.setLoop(true);
     apiRef.current.applyVolume();
   };
 
@@ -153,6 +155,13 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
     if (data === YT_PLAYING) {
       setMode("playing");
       apiRef.current.applyVolume();
+      try {
+        const vd = playerRef.current?.getVideoData();
+        if (vd?.title) setVideoTitle(vd.title);
+        if (vd?.author) setVideoAuthor(vd.author);
+      } catch (e) {
+        // Ignore
+      }
       return;
     }
     if (data === YT_PAUSED || data === YT_UNSTARTED) {
@@ -302,7 +311,7 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
-    if (mode === "playing") {
+    if (mode === "playing" || mode === "tuning") {
       interval = setInterval(() => {
         if (playerRef.current && playerReadyRef.current) {
           try {
@@ -315,10 +324,47 @@ export function RadioPlayerProvider({ children }: { children: ReactNode }) {
             // Ignore if player is not fully initialized
           }
         }
-      }, 1000);
+      }, 500);
     }
     return () => clearInterval(interval);
   }, [mode]);
+
+  const listenStartRef = useRef<{ time: number, stationIndex: number } | null>(null);
+
+  // Track how long the user listens to a station
+  useEffect(() => {
+    if (mode === "playing") {
+      listenStartRef.current = { time: Date.now(), stationIndex: stationRef.current };
+    } else {
+      if (listenStartRef.current) {
+        const duration = (Date.now() - listenStartRef.current.time) / 1000;
+        if (duration > 1) {
+          logCustomEvent("station_listen_time", {
+            station: stationName(listenStartRef.current.stationIndex),
+            duration_seconds: Math.round(duration),
+          });
+        }
+        listenStartRef.current = null;
+      }
+    }
+  }, [mode]);
+
+  // Log on page close if they were listening
+  useEffect(() => {
+    const handleUnload = () => {
+      if (listenStartRef.current) {
+        const duration = (Date.now() - listenStartRef.current.time) / 1000;
+        if (duration > 1) {
+          logCustomEvent("station_listen_time", {
+            station: stationName(listenStartRef.current.stationIndex),
+            duration_seconds: Math.round(duration),
+          });
+        }
+      }
+    };
+    window.addEventListener("beforeunload", handleUnload);
+    return () => window.removeEventListener("beforeunload", handleUnload);
+  }, []);
 
   const value: RadioPlayerValue = {
     station,

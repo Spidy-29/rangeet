@@ -103,7 +103,7 @@ export function FloatingPlayer() {
               <span className={playing ? styles.barAnim : ""} />
             </div>
             <div className={styles.titles}>
-              <div className={styles.title}>{displayTitle}</div>
+              <div className={`${styles.title} ${tuning ? styles.dimmedText : ""}`}>{displayTitle}</div>
             </div>
           </div>
           
@@ -139,8 +139,8 @@ export function FloatingPlayer() {
                     {tuning ? "TUNING..." : "NOW PLAYING"}
                   </div>
                 )}
-                <div className={`${styles.title} ${styles.titleExpanded}`}>{displayTitle}</div>
-                <div className={styles.subtitle}>{displaySubtitle}</div>
+                <div className={`${styles.title} ${styles.titleExpanded} ${tuning ? styles.dimmedText : ""}`}>{displayTitle}</div>
+                <div className={`${styles.subtitle} ${tuning ? styles.dimmedText : ""}`}>{displaySubtitle}</div>
                 {/* Station badge */}
                 <div className={styles.stationBadge} style={{ borderColor: st.accent + '60', color: st.accent }}>
                   {st.label}
