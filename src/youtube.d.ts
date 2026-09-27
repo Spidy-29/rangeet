@@ -29,6 +29,7 @@ declare global {
       getCurrentTime(): number;
       getDuration(): number;
       setShuffle(shufflePlaylist: boolean): void;
+      setLoop(loopPlaylists: boolean): void;
       nextVideo(): void;
       previousVideo(): void;
       getVideoData(): { video_id: string; title: string; author: string };

@@ -158,6 +158,27 @@
   color: #111;
 }
 
+.garbaNavBtn {
+  appearance: none;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.garbaNavBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
 /* Hamburger — hidden on desktop */
 .hamburgerBtn {
   display: none;
@@ -337,6 +358,30 @@
   height: 1px;
   background: rgba(201, 168, 106, 0.15);
   margin: 8px 24px;
+}
+
+.drawerGarbaBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--cream);
+  margin: 8px 24px 0;
+  padding: 14px 20px;
+  border-radius: 14px;
+  font-family: 'Noto Sans Gujarati', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.drawerGarbaBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .drawerSuggestBtn {

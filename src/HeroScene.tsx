@@ -3,6 +3,7 @@ import styles from "./HeroScene.module.css";
 import { useRadioPlayer } from "./RadioPlayer";
 import { STATION_CONFIGS } from "./constants/stations";
 import { logCustomEvent } from "./firebase";
+import { track } from "@vercel/analytics";
 
 export function HeroScene() {
   const { station, mode, goToStation } = useRadioPlayer();
@@ -56,6 +57,17 @@ export function HeroScene() {
         
         {/* Desktop: inline nav */}
         <div className={styles.headerRight}>
+          <a
+            href="/garba"
+            className={styles.garbaNavBtn}
+            onClick={() => {
+              track("navratri_nav_clicked", { source: "desktop" });
+              logCustomEvent("navratri_nav_clicked", { source: "desktop" });
+            }}
+          >
+            Navratri Events
+          </a>
+          
           <div className={styles.stationSwitcher}>
             {STATION_CONFIGS.map((s, i) => (
               <button
@@ -139,6 +151,17 @@ export function HeroScene() {
         </div>
 
         <div className={styles.drawerDivider} />
+
+        <a
+          href="/garba"
+          className={styles.drawerGarbaBtn}
+          onClick={() => {
+            track("navratri_nav_clicked", { source: "drawer" });
+            logCustomEvent("navratri_nav_clicked", { source: "drawer" });
+          }}
+        >
+          Navratri Events
+        </a>
 
         <button
           className={styles.drawerSuggestBtn}

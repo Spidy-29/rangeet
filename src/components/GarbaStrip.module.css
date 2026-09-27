@@ -1,0 +1,137 @@
+.section {
+  padding: 60px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+}
+
+.title {
+  margin: 0;
+  font-family: "Baloo Bhaijaan 2", "Inter", sans-serif;
+  font-size: 2rem;
+  color: var(--amber);
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-family: "Inter", sans-serif;
+  font-size: 1.2rem;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+}
+
+.arrowBtn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--cream);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.arrowBtn:hover {
+  background: var(--border);
+  color: var(--amber);
+}
+
+.scrollWrapper {
+  position: relative;
+  margin: 0 -24px;
+}
+
+.scrollWrapper::before,
+.scrollWrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.scrollWrapper::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg) 0%, transparent 100%);
+}
+
+.scrollWrapper::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg) 0%, transparent 100%);
+}
+
+.scrollContainer {
+  display: flex;
+  gap: 20px;
+  padding: 8px 24px 24px 24px; /* extra bottom padding for shadow */
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.viewMoreCard {
+  min-width: 280px;
+  max-width: 280px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--surface) 0%, var(--bg) 100%);
+  border: 1px dashed var(--border-strong);
+  border-radius: 12px;
+  color: var(--amber);
+  text-decoration: none;
+  font-family: "Baloo Bhaijaan 2", "Inter", sans-serif;
+  font-size: 1.5rem;
+  transition: all 0.2s ease;
+  gap: 8px;
+}
+
+.viewMoreCard:hover {
+  border-color: var(--amber);
+  background: var(--surface);
+  transform: translateY(-2px);
+}
+
+.viewMoreSub {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  color: var(--cream);
+}
+
+@media (max-width: 768px) {
+  .controls {
+    display: none;
+  }
+  .title {
+    font-size: 1.5rem;
+  }
+  .subtitle {
+    font-size: 1rem;
+    display: block;
+  }
+}

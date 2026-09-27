@@ -1,0 +1,122 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.header {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.backLink {
+  color: var(--amber);
+  text-decoration: none;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.backLink:hover {
+  opacity: 0.8;
+}
+
+.logoArea {
+  display: flex;
+  align-items: center;
+}
+
+.logoImage {
+  height: 40px;
+  width: auto;
+}
+
+.main {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 80px 24px;
+  width: 100%;
+}
+
+.titleSection {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.title {
+  margin: 0 0 8px 0;
+  font-family: "Baloo Bhaijaan 2", "Inter", sans-serif;
+  font-size: 3rem;
+  color: var(--amber);
+  line-height: 1.2;
+}
+
+.subtitle {
+  margin: 0 0 16px 0;
+  font-size: 1.25rem;
+  color: var(--cream);
+}
+
+.disclosure {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.filterTabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tabBtn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--cream);
+  padding: 8px 20px;
+  border-radius: 100px;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.tabBtn:hover {
+  background: var(--border);
+}
+
+.activeTab {
+  background: var(--amber);
+  color: var(--bg);
+  border-color: var(--amber);
+}
+
+.activeTab:hover {
+  background: var(--amber);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 0;
+  color: var(--muted);
+  font-family: "Inter", sans-serif;
+  font-size: 1.1rem;
+}
